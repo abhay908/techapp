@@ -1,23 +1,21 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { FaStar } from "react-icons/fa"
+import { RiDeleteBin6Line } from "react-icons/ri"
 import ReactStars from "react-rating-stars-component"
-import { MdOutlineStarPurple500,MdOutlineStarHalf,MdOutlineStarOutline } from "react-icons/md";
-import { RiDeleteBin6Line } from 'react-icons/ri';
-import { removeFromCart } from '../../../../slices/cartSlice';
+import { useDispatch, useSelector } from "react-redux"
 
-const RenderCartCourses = () => {
-    /* yha data render k liye slice s data layenge  */
-    const {cart} = useSelector((state)=> state.cart); // cart data from slice 
-    const dispatch = useDispatch();
+import { removeFromCart } from "../../../../slices/cartSlice"
 
+export default function RenderCartCourses() {
+  const { cart } = useSelector((state) => state.cart)
+  const dispatch = useDispatch()
   return (
     <div className="flex flex-1 flex-col">
-      {cart.map((course, index) => (
+      {cart.map((course, indx) => (
         <div
           key={course._id}
           className={`flex w-full flex-wrap items-start justify-between gap-6 ${
-            index !== cart.length - 1 && "border-b border-b-richblack-400 pb-6"
-          } ${index !== 0 && "mt-6"} `}
+            indx !== cart.length - 1 && "border-b border-b-richblack-400 pb-6"
+          } ${indx !== 0 && "mt-6"} `}
         >
           <div className="flex flex-1 flex-col gap-4 xl:flex-row">
             <img
@@ -29,35 +27,31 @@ const RenderCartCourses = () => {
               <p className="text-lg font-medium text-richblack-5">
                 {course?.courseName}
               </p>
-
               <p className="text-sm text-richblack-300">
                 {course?.category?.name}
               </p>
-
               <div className="flex items-center gap-2">
-                {/* for star rating use react star npm i react-rating-stars-component */}
-                <span className="text-yellow-5">4.8</span>
+                <span className="text-yellow-5">4.5</span>
                 <ReactStars
                   count={5}
                   value={course?.ratingAndReviews?.length}
                   size={20}
                   edit={false}
-                  isHalf={true}
                   activeColor="#ffd700"
-                  emptyIcon={<MdOutlineStarOutline />}
-                  halfIcon={<MdOutlineStarHalf />}
-                  fullIcon={<MdOutlineStarPurple500 />}
+                  emptyIcon={<FaStar />}
+                  fullIcon={<FaStar />}
                 />
-                <span  className="text-richblack-400">{course?.ratingAndReviews?.length} Ratings</span>
+                <span className="text-richblack-400">
+                  {course?.ratingAndReviews?.length} Ratings
+                </span>
               </div>
             </div>
           </div>
-
-          <div  className="flex flex-col items-end space-y-2">
-            <button 
-             onClick={() => dispatch(removeFromCart(course._id))}
-             className="flex items-center gap-x-1 rounded-md border border-richblack-600 bg-richblack-700 py-3 px-[12px] text-pink-200"
-                >
+          <div className="flex flex-col items-end space-y-2">
+            <button
+              onClick={() => dispatch(removeFromCart(course._id))}
+              className="flex items-center gap-x-1 rounded-md border border-richblack-600 bg-richblack-700 py-3 px-[12px] text-pink-200"
+            >
               <RiDeleteBin6Line />
               <span>Remove</span>
             </button>
@@ -68,7 +62,5 @@ const RenderCartCourses = () => {
         </div>
       ))}
     </div>
-  );
+  )
 }
-
-export default RenderCartCourses

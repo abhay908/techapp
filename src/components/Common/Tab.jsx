@@ -12,17 +12,13 @@ export default function Tab({ tabData, field, setField }) {
           onClick={() => setField(tab.type)}
           className={`${
             field === tab.type
-              ? "bg-gradient-to-r from-purple-600 to-blue-500 text-white shadow-[0_0_8px_0_rgba(168,85,247,0.5)]"
-              : "bg-transparent text-richblack-200 hover:bg-richblack-700"
-          } py-2 px-5 rounded-full transition-all duration-200 font-medium relative overflow-hidden`}
+              ? "bg-richblack-900 text-richblack-5"
+              : "bg-transparent text-richblack-200"
+          } py-2 px-5 rounded-full transition-all duration-200`}
         >
-          {/* Gradient background for selected tab */}
-          {field === tab.type && (
-            <span className="absolute inset-0 rounded-full border border-white/10"></span>
-          )}
           {tab?.tabName}
         </button>
       ))}
     </div>
-  )
+  );
 }

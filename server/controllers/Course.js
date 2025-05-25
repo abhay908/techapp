@@ -29,10 +29,6 @@ exports.createCourse = async (req, res) => {
     // Convert the tag and instructions from stringified Array to Array
     const tag = JSON.parse(_tag)
     const instructions = JSON.parse(_instructions)
-    
-    // const tag = _tag ? JSON.parse(_tag) : []; // Default to an empty array if undefined
-    // const instructions = _instructions ? JSON.parse(_instructions) : []; // Default to an empty array if undefined
-
 
     console.log("tag", tag)
     console.log("instructions", instructions)

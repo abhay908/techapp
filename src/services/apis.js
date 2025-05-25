@@ -1,5 +1,4 @@
 const BASE_URL = process.env.REACT_APP_BASE_URL
-// ALL Paths are mentioned Here
 
 // AUTH ENDPOINTS
 export const endpoints = {
@@ -64,7 +63,7 @@ export const contactusEndpoint = {
   CONTACT_US_API: BASE_URL + "/reach/contact",
 }
 
-// SETTINGS PAGE API 
+// SETTINGS PAGE API
 export const settingsEndpoints = {
   UPDATE_DISPLAY_PICTURE_API: BASE_URL + "/profile/updateDisplayPicture",
   UPDATE_PROFILE_API: BASE_URL + "/profile/updateProfile",

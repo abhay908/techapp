@@ -66,18 +66,19 @@ const otpTemplate = (otp) => {
 	
 	<body>
 		<div class="container">
-			<a href="https://localhost:3000/:id"><img class="logo"
-					src="" alt=" Logo"></a>
+			<a href="https://codeplay-edtech-project.vercel.app"><img class="logo"
+					src="https://i.ibb.co/g48x1XG/Untitled-design.png" alt="CodePlay Logo"></a>
 			<div class="message">OTP Verification Email</div>
 			<div class="body">
 				<p>Dear User,</p>
-				<p>Thank you for registering with TechTutor. To complete your registration, please use the following OTP
+				<p>Thank you for registering with CodePlay. To complete your registration, please use the following OTP
 					(One-Time Password) to verify your account:</p>
 				<h2 class="highlight">${otp}</h2>
 				<p>This OTP is valid for 5 minutes. If you did not request this verification, please disregard this email.
 				Once your account is verified, you will have access to our platform and its features.</p>
 			</div>
-			<div class="support">If you have any questions or need assistance, please feel free to reach out to us at <a href="mailto:info@techtutor.com">info@techtutor.com</a>. We are here to help!</div>
+			<div class="support">If you have any questions or need assistance, please feel free to reach out to us at <a
+					href="mailto:info@codeplay.com">info@codeplay.com</a>. We are here to help!</div>
 		</div>
 	</body>
 	

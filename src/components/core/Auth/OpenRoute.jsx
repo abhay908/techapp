@@ -1,5 +1,4 @@
 // This will prevent authenticated users from accessing this route
-// Non Logged in User can't acess that Route 
 import { useSelector } from "react-redux"
 import { Navigate } from "react-router-dom"
 

@@ -2,18 +2,20 @@ import { useState } from "react"
 import { toast } from "react-hot-toast"
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { useDispatch } from "react-redux"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+
 import { sendOtp } from "../../../services/operations/authAPI"
 import { setSignupData } from "../../../slices/authSlice"
 import { ACCOUNT_TYPE } from "../../../utils/constants"
 import Tab from "../../Common/Tab"
 
-
 function SignupForm() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
+  // student or instructor
   const [accountType, setAccountType] = useState(ACCOUNT_TYPE.STUDENT)
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -27,6 +29,7 @@ function SignupForm() {
 
   const { firstName, lastName, email, password, confirmPassword } = formData
 
+  // Handle input fields, when some value changes
   const handleOnChange = (e) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -34,6 +37,7 @@ function SignupForm() {
     }))
   }
 
+  // Handle Form Submission
   const handleOnSubmit = (e) => {
     e.preventDefault()
 
@@ -41,15 +45,18 @@ function SignupForm() {
       toast.error("Passwords Do Not Match")
       return
     }
-
     const signupData = {
       ...formData,
       accountType,
     }
 
+    // Setting signup data to state
+    // To be used after otp verification
     dispatch(setSignupData(signupData))
+    // Send OTP to user for verification
     dispatch(sendOtp(formData.email, navigate))
 
+    // Reset
     setFormData({
       firstName: "",
       lastName: "",
@@ -60,6 +67,7 @@ function SignupForm() {
     setAccountType(ACCOUNT_TYPE.STUDENT)
   }
 
+  // data to pass to Tab component
   const tabData = [
     {
       id: 1,
@@ -74,159 +82,114 @@ function SignupForm() {
   ]
 
   return (
-    <div className="mx-auto w-full max-w-md rounded-xl bg-white p-8 shadow-2xl shadow-purple-200/50">
-      {/* Account Type Tabs */}
-      <div className="mb-6">
-        <Tab tabData={tabData} field={accountType} setField={setAccountType} />
-      </div>
-
-      <form onSubmit={handleOnSubmit} className="space-y-5">
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-          <div>
-            <label
-              htmlFor="firstName"
-              className="block text-sm font-medium text-gray-700"
-            >
-              First Name <span className="text-red-500">*</span>
-            </label>
+    <div>
+      {/* Tab */}
+      <Tab tabData={tabData} field={accountType} setField={setAccountType} />
+      {/* Form */}
+      <form onSubmit={handleOnSubmit} className="flex w-full flex-col gap-y-4">
+        <div className="flex gap-x-4">
+          <label>
+            <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
+              First Name <sup className="text-pink-200">*</sup>
+            </p>
             <input
-              id="firstName"
-              name="firstName"
-              type="text"
               required
+              type="text"
+              name="firstName"
               value={firstName}
               onChange={handleOnChange}
               placeholder="Enter first name"
-              className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-purple-500 focus:ring-purple-500"
+              className="form-style w-full"
             />
-          </div>
-          <div>
-            <label
-              htmlFor="lastName"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Last Name <span className="text-red-500">*</span>
-            </label>
+          </label>
+          <label>
+            <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
+              Last Name <sup className="text-pink-200">*</sup>
+            </p>
             <input
-              id="lastName"
-              name="lastName"
-              type="text"
               required
+              type="text"
+              name="lastName"
               value={lastName}
               onChange={handleOnChange}
               placeholder="Enter last name"
-              className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-purple-500 focus:ring-purple-500"
+              className="form-style w-full"
             />
-          </div>
-        </div>
-
-        <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Email Address <span className="text-red-500">*</span>
           </label>
+        </div>
+        <label className="w-full">
+          <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
+            Email Address <sup className="text-pink-200">*</sup>
+          </p>
           <input
-            id="email"
-            name="email"
-            type="email"
             required
+            type="text"
+            name="email"
             value={email}
             onChange={handleOnChange}
             placeholder="Enter email address"
-            className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-purple-500 focus:ring-purple-500"
+            className="form-style w-full"
           />
-        </div>
-
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
+        </label>
+        <div className="flex gap-x-4">
+          <label className="relative">
+            <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
+              Create Password <sup className="text-pink-200">*</sup>
+            </p>
+            <input
+              required
+              type={showPassword ? "text" : "password"}
+              name="password"
+              value={password}
+              onChange={handleOnChange}
+              placeholder="Enter Password"
+              className="form-style w-full !pr-10"
+            />
+            <span
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute right-3 top-[38px] z-[10] cursor-pointer"
             >
-              Password <span className="text-red-500">*</span>
-            </label>
-            <div className="relative mt-1">
-              <input
-                id="password"
-                name="password"
-                type={showPassword ? "text" : "password"}
-                required
-                value={password}
-                onChange={handleOnChange}
-                placeholder="Create password"
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 pr-10 focus:border-purple-500 focus:ring-purple-500"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword((prev) => !prev)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-500"
-              >
-                {showPassword ? (
-                  <AiOutlineEyeInvisible className="h-5 w-5" />
-                ) : (
-                  <AiOutlineEye className="h-5 w-5" />
-                )}
-              </button>
-            </div>
-          </div>
-          <div>
-            <label
-              htmlFor="confirmPassword"
-              className="block text-sm font-medium text-gray-700"
+              {showPassword ? (
+                <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
+              ) : (
+                <AiOutlineEye fontSize={24} fill="#AFB2BF" />
+              )}
+            </span>
+          </label>
+          <label className="relative">
+            <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
+              Confirm Password <sup className="text-pink-200">*</sup>
+            </p>
+            <input
+              required
+              type={showConfirmPassword ? "text" : "password"}
+              name="confirmPassword"
+              value={confirmPassword}
+              onChange={handleOnChange}
+              placeholder="Confirm Password"
+              className="form-style w-full !pr-10"
+            />
+            <span
+              onClick={() => setShowConfirmPassword((prev) => !prev)}
+              className="absolute right-3 top-[38px] z-[10] cursor-pointer"
             >
-              Confirm Password <span className="text-red-500">*</span>
-            </label>
-            <div className="relative mt-1">
-              <input
-                id="confirmPassword"
-                name="confirmPassword"
-                type={showConfirmPassword ? "text" : "password"}
-                required
-                value={confirmPassword}
-                onChange={handleOnChange}
-                placeholder="Confirm password"
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 pr-10 focus:border-purple-500 focus:ring-purple-500"
-              />
-              <button
-                type="button"
-                onClick={() => setShowConfirmPassword((prev) => !prev)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-500"
-              >
-                {showConfirmPassword ? (
-                  <AiOutlineEyeInvisible className="h-5 w-5" />
-                ) : (
-                  <AiOutlineEye className="h-5 w-5" />
-                )}
-              </button>
-            </div>
-          </div>
+              {showConfirmPassword ? (
+                <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
+              ) : (
+                <AiOutlineEye fontSize={24} fill="#AFB2BF" />
+              )}
+            </span>
+          </label>
         </div>
-
-        <div>
-          <button
-            type="submit"
-            className="flex w-full justify-center rounded-lg bg-gradient-to-r from-purple-600 to-blue-500 py-3 px-4 font-medium text-white shadow-md hover:from-purple-700 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-all duration-200"
-          >
-            Create Account
-          </button>
-        </div>
+        <button
+          type="submit"
+          className="mt-6 rounded-[8px] bg-yellow-50 py-[8px] px-[12px] font-medium text-richblack-900"
+        >
+          Create Account
+        </button>
       </form>
-
-      <div className="mt-6 text-center text-sm text-gray-600">
-        <p>
-          Already have an account?{" "}
-          <Link
-            to="/login"
-            className="font-medium text-purple-600 hover:text-purple-500"
-          >
-            Sign in
-          </Link>
-        </p>
-      </div>
     </div>
-  );
+  )
 }
 
 export default SignupForm
